@@ -17,9 +17,9 @@ export default class MySqlUserRepository implements UserRepository {
       const userData = result[0];
       return new User(
         userData.id,
-        userData.name,
         userData.email,
-        userData.password
+        userData.password,
+        userData.name
       );
     } catch (error) {
       return null;

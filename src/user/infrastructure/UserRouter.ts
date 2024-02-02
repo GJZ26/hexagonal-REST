@@ -12,6 +12,6 @@ userRouter.get("/", getByEmailController.run.bind(getByEmailController));
 userRouter.get("/:id", getByPkController.run.bind(getByPkController));
 
 userRouter.post("/login", loginController.run.bind(loginController));
-userRouter.post("/register", registerController.run.bind(registerController));
+userRouter.post("/", registerController.run.bind(registerController));
 
 export default userRouter;

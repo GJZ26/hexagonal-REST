@@ -11,7 +11,7 @@ export default class MySqlEntryRepository implements EntryRepository {
 
       return data_parsed.map(
         (entry: any) =>
-          new Entry(entry.id, entry.name, entry.description, entry.price)
+          new Entry(entry.id, entry.title, entry.content, entry.author)
       );
     } catch (error) {
       return null;

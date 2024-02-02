@@ -6,6 +6,7 @@ export default class RegisterController {
 
   async run(req: Request, res: Response) {
     const data = req.body;
+
     try {
       const user = await this.registerUseCase.run(
         data.name,
@@ -18,7 +19,7 @@ export default class RegisterController {
           status: "success",
           data: {
             id: user.id,
-            name: user.password,
+            name: user.name,
             email: user.email,
           },
         });
