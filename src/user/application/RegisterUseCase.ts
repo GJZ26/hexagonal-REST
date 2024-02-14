@@ -1,11 +1,13 @@
 import User from "../domain/User";
 import UserRepository from "../domain/UserRepository";
 import EncryptInterface from "./services/EncryptInterface";
+import NotificationInterface from "./services/NotificationInterface";
 
 export default class RegisterUseCase {
   constructor(
     readonly userRepository: UserRepository,
-    readonly encryptInterface: EncryptInterface
+    readonly encryptInterface: EncryptInterface,
+    readonly notificationInterface: NotificationInterface
   ) {}
   async run(
     name: string,
@@ -19,6 +21,9 @@ export default class RegisterUseCase {
         email,
         encrypted_password
       );
+
+      const feedback = this.notificationInterface.sendNotification(`¡El usuario ${name} se ha unido a la plataforma!`)
+      console.log(feedback)
       return user;
     } catch (error) {
       return null;
