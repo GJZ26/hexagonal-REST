@@ -1,17 +1,19 @@
-import express from "express";
 import dotenv from "dotenv";
-import userRouter from "./user/infrastructure/UserRouter";
-import entryRouter from "./entry/infrastructure/EntryRouter";
+import express from "express";
+import cors from "cors";
+import authorRouter from "./author/infrastructure/AuthorRouter";
 
 dotenv.config();
 
+const APP_PORT = process.env["APP_PORT"] ?? 3030;
+
 const server = express();
-const server_port = process.env["APP_PORT"] ?? 3030;
 
+server.use(cors());
 server.use(express.json());
-server.use("/users", userRouter);
-server.use("/entries", entryRouter);
 
-server.listen(server_port, () => {
-  console.log(`Server listening on http://localhost:${server_port}/`);
+server.use("/authors", authorRouter);
+
+server.listen(APP_PORT, () => {
+  console.log(`\n-> API listening on http://127.0.0.1:${APP_PORT}/`);
 });

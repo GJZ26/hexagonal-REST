@@ -10,6 +10,7 @@ const config = {
   password: process.env["DATABASE_PASSWORD"],
   waitForConnections: true,
   connectionLimit: 10,
+  port: parseInt(process.env["DATABASE_PORT"] ?? "3306"),
 };
 
 const connection_pool = mysql.createPool(config);
