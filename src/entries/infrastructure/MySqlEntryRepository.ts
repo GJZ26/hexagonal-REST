@@ -42,7 +42,7 @@ export default class MySqlEntryRepository implements EntryRepository {
 
   async list(): Promise<Entry[] | null> {
     const sentence =
-      "SELECT entries.*, IFNULL(authors.name, 'Unknown') AS author_name FROM entries LEFT JOIN authors ON entries.author_id = authors.id;";
+      "SELECT entries.*, IFNULL(authors.name, 'Unknownn') AS author_name FROM entries LEFT JOIN authors ON entries.author_id = authors.id;";
     try {
       const [result]: any = await query(sentence, []);
       if (result === null) {
@@ -65,7 +65,65 @@ export default class MySqlEntryRepository implements EntryRepository {
       return null;
     }
   }
+
+  private async getByPk(primaryKey: string): Promise<Entry | null> {
+    const sentence = "SELECT * FROM entries WHERE id = ?";
+    const params = [primaryKey];
+    try {
+      const [entry]: any = await query(sentence, params);
+
+      if (entry === null || entry.length === 0) {
+        return null;
+      }
+
+      return entry[0];
+    } catch (error) {
+      console.log("Ha ocurrido un erro en tu petición.");
+      console.error(error);
+      return null;
+    }
+  }
+
   async update(entry: EntryUpdate): Promise<Entry | null> {
-    throw new Error("Method not implemented.");
+    const entryToModify = await this.getByPk(entry.id);
+    if (!entryToModify) {
+      console.log("No se ha encontrado la entrada solicitada");
+      return null;
+    }
+
+    const sentence = "UPDATE entries SET title = ?, content = ? WHERE id = ?";
+    const params: string[] = [
+      entry.title ?? entryToModify.title,
+      entry.content ?? entryToModify.content,
+      entry.id,
+    ];
+
+    const second_sentence =
+      "SELECT IFNULL(authors.name, 'Unknown') AS author_name FROM entries LEFT JOIN authors ON entries.author_id = authors.id WHERE entries.id = ?;";
+    const second_params = [entry.id];
+
+    try {
+      const [result]: any = await query(sentence, params);
+      const [second_result]: any = await query(second_sentence, second_params);
+
+      if (result === null) {
+        return null;
+      }
+
+      const reponse: Entry = {
+        title: params[0],
+        content: params[1],
+        id: params[2],
+        author_id: "",
+        author_name: second_result[0].author_name ?? "Unknown"
+      };
+
+      console.log("Entrada actualizada.");
+      return reponse;
+    } catch (error) {
+      console.log("Ha ocurrido un error trantando de actualizar los datos.");
+      console.error(error);
+      return null;
+    }
   }
 }
