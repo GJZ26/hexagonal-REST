@@ -2,7 +2,6 @@ dist/
 build/
 node_modules/
 .gitignore
-.env
 package-lock.json
 sonar-project.properties
 .scannerwork
