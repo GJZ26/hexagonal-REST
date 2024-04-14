@@ -21,7 +21,7 @@ export default class MySqlAuthorRepository implements AuthorRepository {
           name: individual.name,
           id: individual.id,
           email: individual.email,
-          password: "[HIDDEN]",
+          password: individual.password,
         });
       });
 
@@ -65,7 +65,7 @@ export default class MySqlAuthorRepository implements AuthorRepository {
       this.uuidService.get_uuid(),
       author.name!,
       author.email,
-      "[HIDDEN]",
+      author.password,
     ];
 
     try {
@@ -86,7 +86,7 @@ export default class MySqlAuthorRepository implements AuthorRepository {
         id: params[0],
         name: author.name!,
         email: author.email,
-        password: "[HIDDEN]",
+        password: author.password,
       };
 
       console.log("User added");

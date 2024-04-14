@@ -1,3 +1,8 @@
+DROP DATABASE IF EXISTS recu1 ;
+CREATE DATABASE IF NOT EXISTS recu1;
+
+USE recu1;
+
 -- Crear la tabla 'authors'
 CREATE TABLE authors (
     id UUID PRIMARY KEY DEFAULT UUID(),
@@ -13,3 +18,4 @@ CREATE TABLE entries (
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL
 );
+
