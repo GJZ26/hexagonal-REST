@@ -51,7 +51,7 @@ export default class MySqlEntryRepository implements EntryRepository {
       const response: Array<Entry> = [];
       result.map((entry: any) => {
         response.push({
-          id: entry.content,
+          id: entry.id,
           title: entry.title,
           content: entry.content,
           author_id: entry.author_id,

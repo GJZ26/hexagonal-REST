@@ -12,7 +12,8 @@ export default class MySqlAuthorRepository implements AuthorRepository {
     try {
       const [results]: any = await query(sentence, []);
       const response: Array<Author> = [];
-      if (results === null || results.length == 0) {
+
+      if (results === null) {
         return null;
       }
 
