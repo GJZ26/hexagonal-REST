@@ -16,14 +16,14 @@ export default class MySqlAuthorRepository implements AuthorRepository {
         return null;
       }
 
-      results.map((individual: any)=>{
-          response.push({
-            name: individual.name,
-            id: individual.id,
-            email: individual.email,
-            password: "[HIDDEN]"
-          })
-      })
+      results.map((individual: any) => {
+        response.push({
+          name: individual.name,
+          id: individual.id,
+          email: individual.email,
+          password: "[HIDDEN]",
+        });
+      });
 
       return response;
     } catch (error) {
@@ -44,10 +44,10 @@ export default class MySqlAuthorRepository implements AuthorRepository {
       }
 
       const response: Author = {
-        id: result.id,
-        name: result.name,
-        email: result.email,
-        password: "[HIDDEN]",
+        id: result[0].id,
+        name: result[0].name,
+        email: result[0].email,
+        password: result[0].password,
       };
 
       return response;
@@ -97,7 +97,12 @@ export default class MySqlAuthorRepository implements AuthorRepository {
       return null;
     }
   }
-  access(author: AuthorRequest): Promise<Author | null> {
-    throw new Error("Method not implemented.");
+  async access(author: AuthorRequest): Promise<Author | null> {
+    const user = await this.get_by_email(author.email);
+    if (!user) {
+      console.log("Usuario no encontrado.");
+      return null;
+    }
+    return user;
   }
 }
