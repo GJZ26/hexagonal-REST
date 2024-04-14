@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/App.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsnd --respawn src/app.ts ",
     "sonar": "sonar-scanner"
@@ -20,7 +22,8 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/uuid": "^9.0.8",
     "sonarqube-scanner": "^3.3.0",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "amqplib": "^0.10.3",
