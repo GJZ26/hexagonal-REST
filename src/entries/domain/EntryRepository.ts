@@ -5,5 +5,6 @@ import Entry from "./Entry";
 export default interface EntryRepository {
   create(entry: EntryRequest): Promise<Entry | null>;
   list(): Promise<Array<Entry> | null>;
+  getByPk(pk: string): Promise<Entry | null>;
   update(entry: EntryUpdate): Promise<Entry | null>;
 }

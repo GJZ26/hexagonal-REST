@@ -6,13 +6,13 @@ import Entry from "../domain/Entry";
 import EntryRepository from "../domain/EntryRepository";
 
 export default class MySqlEntryRepository implements EntryRepository {
-  constructor(readonly uuidService: UUIDInterface) {}
+  constructor() {}
 
   async create(entry: EntryRequest): Promise<Entry | null> {
     const sentence =
       "INSERT INTO entries(id, author_id, title, content) VALUES(?,?,?,?)";
     const params: string[] = [
-      this.uuidService.get_uuid(),
+      entry.id!,
       entry.author_id,
       entry.title,
       entry.content,
@@ -66,9 +66,9 @@ export default class MySqlEntryRepository implements EntryRepository {
     }
   }
 
-  private async getByPk(primaryKey: string): Promise<Entry | null> {
+  async getByPk(pk: string): Promise<Entry | null> {
     const sentence = "SELECT * FROM entries WHERE id = ?";
-    const params = [primaryKey];
+    const params = [pk];
     try {
       const [entry]: any = await query(sentence, params);
 
@@ -115,7 +115,7 @@ export default class MySqlEntryRepository implements EntryRepository {
         content: params[1],
         id: params[2],
         author_id: "",
-        author_name: second_result[0].author_name ?? "Unknown"
+        author_name: second_result[0].author_name ?? "Unknown",
       };
 
       console.log("Entrada actualizada.");
